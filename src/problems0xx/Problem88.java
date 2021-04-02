@@ -59,6 +59,9 @@ public class Problem88 {
 	}
 	
 	public static void main(String[] args) {
+		long start = System.nanoTime();
 		System.out.println(totalSum(12000));
+		long end = System.nanoTime();
+		System.out.println((end - start) / 1000000.0);
 	}
 }
