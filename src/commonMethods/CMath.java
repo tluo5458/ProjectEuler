@@ -60,6 +60,32 @@ public class CMath {
 		return ret;
 	}
 	
+	public static BigInteger BIFactorial(int n) {
+		BigInteger ret = BigInteger.ONE;
+		for (int i = 2; i <= n; i++) {
+			ret = ret.multiply(new BigInteger(Integer.toString(i)));
+		}
+		return ret;
+	}
+	
+	public static BigInteger BIPerm(int n, int r) {
+		if (r < 0 || r > n) {
+			return BigInteger.ZERO;
+		}
+		BigInteger ret = new BigInteger(Integer.toString(n));
+		for (int i = n - 1; i > n - r; i--) {
+			ret = ret.multiply(new BigInteger(Integer.toString(i)));
+		}
+		return ret;
+	}
+	
+	public static BigInteger BICombo(int n, int r) {
+		if (r < 0 || r > n) {
+			return BigInteger.ZERO;
+		}
+		return BIPerm(n, r).divide(BIFactorial(r));
+	}
+	
 	public static String decBaseFac(int num, int max) {
 		String fin = "";
 		int temp = num;
@@ -323,5 +349,29 @@ public class CMath {
 			total *= (Math.pow(i, primeCounts.get(i) + 1) - 1) / (i - 1);
 		}
 		return total - num;
+	}
+	
+	public static String decToBin(int k) {
+		String end = "";
+		while (k > 0) {
+			end = Integer.toString(k % 2) + end;
+			k /= 2;
+		}
+		return end;
+	}
+	
+	public static String decToBin(int k, int digs) {
+		char[] chars = new char[digs];
+		int curr = digs - 1;
+		while (k > 0) {
+			chars[curr] = (char) ((k % 2) + 48);
+			k /= 2;
+			curr--;
+		}
+		while (curr >= 0) {
+			chars[curr] = '0';
+			curr--;
+		}
+		return String.valueOf(chars);
 	}
 }
