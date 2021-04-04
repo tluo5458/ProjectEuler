@@ -253,6 +253,24 @@ public class CMath {
 		}
 		return num2;
 	}
+	
+	public static long gcd(long num1, long num2) {
+		num1 = Math.abs(num1);
+		num2 = Math.abs(num2);
+		if (num1 == 0) {
+			return num2;
+		}
+		if (num2 == 0) {
+			return num1;
+		}
+		while (num1 != num2) {
+			if (num1 > num2)
+				num1 = num1 - num2;
+			else
+				num2 = num2 - num1;
+		}
+		return num2;
+	}
 
 	public static boolean isPalindrome(String s) {
 		for (int i = 0; i < s.length(); i++) {
