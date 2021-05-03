@@ -15,7 +15,10 @@ public class CMath {
 		if (num < 2) {
 			return false;
 		}
-		for (int i = 2; i <= Math.sqrt(num); i++) {
+		if (num % 2 == 0) {
+			return false;
+		}
+		for (int i = 3; i <= Math.sqrt(num); i += 2) {
 			if (num % i == 0) {
 				return false;
 			}
@@ -35,20 +38,18 @@ public class CMath {
 		}
 		
 		// sieve of eratosthenes
-		long insideStart = System.nanoTime();
 		// isComposite[i] checks if 2 * i + 3 is composite
 		boolean[] isComposite = new boolean[(n - 1) / 2];
 		int sqrt = (((int) Math.sqrt(n)) - 1) / 2;
 		for (int i = 0; i <= sqrt; i++) {
 			if (!isComposite[i]) {
 				// for loop runs from p^2 and adds 2p each time
+				// we have 2j + 3 = (2i + 3)^2 so j = 2i^2 + 6i + 3, and j += (2 * (2i + 3)) / 2 = 2i + 3
 				for (int j = 2 * i * i + 6 * i + 3; j < isComposite.length; j += (2 * i + 3)) {
 					isComposite[j] = true;
 				}
 			}
 		}
-		long insideEnd = System.nanoTime();
-		System.out.println("Sieve: " + (insideEnd - insideStart) / 1000000 + "ms");
 		
 		// iterate through to find primes
 		for (int i = 0; i < isComposite.length; i++) {
@@ -59,6 +60,7 @@ public class CMath {
 		return ret;
 	}
 	
+	// n! for some integer n, only works for 0 <= n <= 11
 	public static int factorial(int n) {
 		int ret = 1;
 		for (int i = 1; i <= n; i++) {
@@ -67,6 +69,7 @@ public class CMath {
 		return ret;
 	}
 	
+	// n! for some integer n, works for larger n but returns BigInteger
 	public static BigInteger BIFactorial(int n) {
 		BigInteger ret = BigInteger.ONE;
 		for (int i = 2; i <= n; i++) {
@@ -75,6 +78,7 @@ public class CMath {
 		return ret;
 	}
 	
+	// nPr = n!/r! for n, r
 	public static BigInteger BIPerm(int n, int r) {
 		if (r < 0 || r > n) {
 			return BigInteger.ZERO;
@@ -86,6 +90,7 @@ public class CMath {
 		return ret;
 	}
 	
+	// nCr = n!/(r!(n-r)!) for n, r
 	public static BigInteger BICombo(int n, int r) {
 		if (r < 0 || r > n) {
 			return BigInteger.ZERO;
@@ -93,6 +98,7 @@ public class CMath {
 		return BIPerm(n, r).divide(BIFactorial(r));
 	}
 	
+	// base factorial representation of num, max is number of digits in final representation (with padded zeros as necessary)
 	public static String decBaseFac(int num, int max) {
 		String fin = "";
 		int temp = num;
@@ -105,6 +111,7 @@ public class CMath {
 		return fin;
 	}
 	
+	// generates the num-th permutation lexicographically of the digits between 0 and max, inclusive
 	public static String numToPerm(int num, int max) {
 		ArrayList<Integer> digs = new ArrayList<Integer>();
 		for (int i = 0; i <= max; i++) {
@@ -124,6 +131,7 @@ public class CMath {
 		return curr;
 	}
 	
+	// generates the permutations of the digits of num
 	public static HashSet<Integer> permutations(int num) {
 		char[] chars = Integer.toString(num).toCharArray();
 		HashSet<Integer> ret = new HashSet<Integer>();
@@ -141,6 +149,7 @@ public class CMath {
 		return ret;
 	}
 	
+	// generates all combinations of r items in [1, 2,..., n]
 	public static HashSet<ArrayList<Integer>> combinations(int n, int r) {
 		HashSet<ArrayList<Integer>> in = new HashSet<ArrayList<Integer>>();
 		in.add(new ArrayList<Integer>());
@@ -167,6 +176,7 @@ public class CMath {
 		return ret;
 	}
 	
+	// generates the prime factors of n, with repeats
 	public static ArrayList<Integer> primeFactors(int n) {
 		ArrayList<Integer> ret = new ArrayList<Integer>();
 		while (n % 2 == 0) {
@@ -185,6 +195,7 @@ public class CMath {
 		return ret;
 	}
 	
+	// returns hashmap of p -> e for all primes p that divide n, where p^e divides n but p^(e + 1) does not
 	public static HashMap<Integer, Integer> primeCount(int n) {
 		ArrayList<Integer> factors = primeFactors(n);
 		HashMap<Integer, Integer> primeCount = new HashMap<Integer, Integer>();
@@ -205,6 +216,7 @@ public class CMath {
 		return primeCount;
 	}
 	
+	// computes the euler phi function of n
 	public static int phi(int n) {
 		int ret = n;
 		ArrayList<Integer> factors = primeFactors(n);
@@ -219,6 +231,7 @@ public class CMath {
 		return ret;
 	}
 	
+	// checks if a contains each digit from 1 to 9 exactly once
 	public static boolean isPandigitalNoZero(String a) {
 		for (int i = 1; i < 10; i++) {
 			if (!a.contains(Integer.toString(i))) {
@@ -231,6 +244,7 @@ public class CMath {
 		return false;
 	}
 	
+	// checks if a contains each digit from 0 to 9 exactly once
 	public static boolean isPandigitalWZero(String a) {
 		for (int i = 0; i < 10; i++) {
 			if (!a.contains(Integer.toString(i))) {
@@ -243,6 +257,7 @@ public class CMath {
 		return false;
 	}
 	
+	// computes gcd of num1 and num2 using euclidean algorithm
 	public static int gcd(int num1, int num2) {
 		num1 = Math.abs(num1);
 		num2 = Math.abs(num2);
@@ -261,6 +276,7 @@ public class CMath {
 		return num2;
 	}
 	
+	// computes gcd of num1 and num2 (but they're longs now) using euclidean algorithm
 	public static long gcd(long num1, long num2) {
 		num1 = Math.abs(num1);
 		num2 = Math.abs(num2);
@@ -279,8 +295,9 @@ public class CMath {
 		return num2;
 	}
 
+	// checks if the string s is a palindrome
 	public static boolean isPalindrome(String s) {
-		for (int i = 0; i < s.length(); i++) {
+		for (int i = 0; i < s.length() / 2; i++) {
 			if (s.charAt(i) != s.charAt(s.length() - 1 - i)) {
 				return false;
 			}
@@ -288,19 +305,7 @@ public class CMath {
 		return true;
 	}
 	
-	public static ArrayList<Integer> primes(int max) {
-		ArrayList<Integer> ret = new ArrayList<Integer>();
-		if (max >= 2) {
-			ret.add(2);
-		}
-		for (int i = 3; i <= max; i += 2) {
-			if (isPrime(i)) {
-				ret.add(i);
-			}
-		}
-		return ret;
-	}
-	
+	// finds the roman numeral representation of num
 	public static String toRoman(int num) {
 		int[] vals = {1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1};
 		String[] symbs = {"M", "CM", "D", "CD", "C", "XC", "L", "XL", "X", "IX", "V", "IV", "I"};
@@ -316,6 +321,7 @@ public class CMath {
 		return fin.toString();
 	}
 	
+	// finds the integer value of a roman numeral string
 	public static int romanToInt(String roman) {
 		HashMap<Character, Integer> map = new HashMap<Character, Integer>();
 		map.put('M', 1000);
@@ -339,12 +345,14 @@ public class CMath {
 		return ret;
 	}
 	
+	// generates the n-th sides-sided number
 	public static int polygonalNumber(int n, int sides) {
 		int start = n * (n + 1) / 2;
 		int inc = n * (n - 1) / 2;
 		return start + (sides - 3) * inc;
 	}
 	
+	// finds partitions(i) for all i <= n
 	public static ArrayList<BigInteger> partitionsBelow(int n) {
 		ArrayList<BigInteger> ret = new ArrayList<BigInteger>();
 		ret.add(BigInteger.ONE);
@@ -367,6 +375,7 @@ public class CMath {
 		return ret;
 	}
 	
+	// finds the sum of proper factors of num
 	public static int properFactorSum(int num) {
 		int total = 1;
 		HashMap<Integer, Integer> primeCounts = primeCount(num);
@@ -376,6 +385,7 @@ public class CMath {
 		return total - num;
 	}
 	
+	// finds the binary representation of k
 	public static String decToBin(int k) {
 		String end = "";
 		while (k > 0) {
@@ -385,6 +395,7 @@ public class CMath {
 		return end;
 	}
 	
+	// finds the binary representation of k, digs is number of digits in final result (with padded zeros as necessary)
 	public static String decToBin(int k, int digs) {
 		char[] chars = new char[digs];
 		int curr = digs - 1;

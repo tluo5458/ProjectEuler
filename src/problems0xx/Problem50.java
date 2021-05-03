@@ -5,7 +5,7 @@ import commonMethods.CMath;
 
 public class Problem50 {
 	private static ArrayList<Integer> getConsecPrimes(int minInd, int length, int max) {
-		ArrayList<Integer> primes = CMath.primes(max);
+		ArrayList<Integer> primes = CMath.primesUnder(max);
 		ArrayList<Integer> ret = new ArrayList<Integer>();
 		for (int i = minInd; i < minInd + length; i++) {
 			ret.add(primes.get(i));
@@ -14,7 +14,7 @@ public class Problem50 {
 	}
 	
 	public static int maxPrimeSumPrime(int max) {
-		ArrayList<Integer> primes = CMath.primes(max);
+		ArrayList<Integer> primes = CMath.primesUnder(max);
 		int maxLength = 0;
 		int primeMaxLength = 0;
 		int minPrime = 0;
