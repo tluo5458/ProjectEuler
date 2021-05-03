@@ -24,6 +24,7 @@ public class CMath {
 	}
 	
 	public static ArrayList<Integer> primesUnder(int n) {
+		// small n
 		ArrayList<Integer> ret = new ArrayList<Integer>();
 		if (n < 2) {
 			return ret;
@@ -32,24 +33,30 @@ public class CMath {
 		if (n == 2) {
 			return ret;
 		}
-		for (int i = 3; i <= n; i += 2) {
-			ret.add(i);
-		}
-		int curr = 1;
-		while (ret.get(curr) * ret.get(curr) < n) {
-			ArrayList<Integer> toRemove = new ArrayList<Integer>();
-			for (int i = curr + 1; i < ret.size(); i++) {
-				if (ret.get(i) % ret.get(curr) == 0) {
-					toRemove.add(i);
+		
+		// sieve of eratosthenes
+		long insideStart = System.nanoTime();
+		// isComposite[i] checks if 2 * i + 3 is composite
+		boolean[] isComposite = new boolean[(n - 1) / 2];
+		int sqrt = (((int) Math.sqrt(n)) - 1) / 2;
+		for (int i = 0; i <= sqrt; i++) {
+			if (!isComposite[i]) {
+				// for loop runs from p^2 and adds 2p each time
+				for (int j = 2 * i * i + 6 * i + 3; j < isComposite.length; j += (2 * i + 3)) {
+					isComposite[j] = true;
 				}
 			}
-			for (int i = toRemove.size() - 1; i >= 0; i--) {
-				ret.remove((int) toRemove.get(i));
+		}
+		long insideEnd = System.nanoTime();
+		System.out.println("Sieve: " + (insideEnd - insideStart) / 1000000 + "ms");
+		
+		// iterate through to find primes
+		for (int i = 0; i < isComposite.length; i++) {
+			if (!isComposite[i]) {
+				ret.add(2 * i + 3);
 			}
-			curr++;
 		}
 		return ret;
-		
 	}
 	
 	public static int factorial(int n) {
