@@ -1,7 +1,5 @@
 package problems1xx;
 
-import java.util.Arrays;
-
 public class Problem122 {
 	public static int[] minExps(int lim) {
 		class Solver {
