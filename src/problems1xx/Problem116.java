@@ -11,7 +11,7 @@ public class Problem116 {
 		int top = length - block + 1;
 		int bot = 1;
 		while (top >= bot) {
-			tot = tot.add(CMath.BICombo(top, bot));
+			tot = tot.add(CMath.comboBI(top, bot));
 			top -= (block - 1);
 			bot++;
 		}

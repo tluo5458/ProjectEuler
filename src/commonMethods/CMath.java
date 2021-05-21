@@ -70,7 +70,7 @@ public class CMath {
 	}
 	
 	// n! for some integer n, works for larger n but returns BigInteger
-	public static BigInteger BIFactorial(int n) {
+	public static BigInteger factorialBI(int n) {
 		BigInteger ret = BigInteger.ONE;
 		for (int i = 2; i <= n; i++) {
 			ret = ret.multiply(new BigInteger(Integer.toString(i)));
@@ -79,7 +79,7 @@ public class CMath {
 	}
 	
 	// nPr = n!/r! for n, r
-	public static BigInteger BIPerm(int n, int r) {
+	public static BigInteger permBI(int n, int r) {
 		if (r < 0 || r > n) {
 			return BigInteger.ZERO;
 		}
@@ -91,11 +91,11 @@ public class CMath {
 	}
 	
 	// nCr = n!/(r!(n-r)!) for n, r
-	public static BigInteger BICombo(int n, int r) {
+	public static BigInteger comboBI(int n, int r) {
 		if (r < 0 || r > n) {
 			return BigInteger.ZERO;
 		}
-		return BIPerm(n, r).divide(BIFactorial(r));
+		return permBI(n, r).divide(factorialBI(r));
 	}
 	
 	// base factorial representation of num, max is number of digits in final representation (with padded zeros as necessary)
@@ -420,5 +420,14 @@ public class CMath {
 			return BigInteger.ZERO;
 		}
 		return a.modPow(p.subtract(new BigInteger("2")), p);
+	}
+	
+	public static int digSumBI(BigInteger a) {
+		char[] s = a.toString().toCharArray();
+		int tot = 0;
+		for (int i = 0; i < s.length; i++) {
+			tot += s[i] - 48;
+		}
+		return tot;
 	}
 }

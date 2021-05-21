@@ -34,7 +34,7 @@ public class Problem121 {
 		for (int i = turns / 2 + 1; i <= turns; i++) {
 			tot = tot.add(probs[i]);
 		}
-		return CMath.BIFactorial(turns + 1).divide(tot);
+		return CMath.factorialBI(turns + 1).divide(tot);
 	}
 	
 	public static void main(String[] args) {
@@ -42,6 +42,5 @@ public class Problem121 {
 		t.start();
 		System.out.println(maxPayout(15));
 		t.end();
-		t.time();
 	}
 }

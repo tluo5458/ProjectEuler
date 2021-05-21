@@ -33,6 +33,5 @@ public class Problem743 {
 		t.start();
 		System.out.println(a(100000000, 100000000, p));
 		t.end();
-		t.time();
 	}
 }

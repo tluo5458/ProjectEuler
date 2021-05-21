@@ -16,10 +16,11 @@ public class Timing {
 			end = System.nanoTime();
 			running = false;
 			timed = true;
+			time();
 		}
 	}
 	
-	public void time() {
+	private void time() {
 		long timens = end - start;
 		if (timens < 1000) {
 			System.out.println(timens + " nanoseconds");
