@@ -410,4 +410,15 @@ public class CMath {
 		}
 		return String.valueOf(chars);
 	}
+	
+	public static BigInteger intToBI(int n) {
+		return new BigInteger(Integer.toString(n));
+	}
+	
+	public static BigInteger modInvP(BigInteger a, BigInteger p) {
+		if (a.mod(p).compareTo(BigInteger.ZERO) == 0) {
+			return BigInteger.ZERO;
+		}
+		return a.modPow(p.subtract(new BigInteger("2")), p);
+	}
 }
