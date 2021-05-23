@@ -4,10 +4,16 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.TreeSet;
 
 public class CMath {
 	public static boolean isSquare(int num) {
 		int sqrt = (int) Math.sqrt(num);
+		return sqrt * sqrt == num;
+	}
+	
+	public static boolean isSquare(long num) {
+		long sqrt = (long) Math.sqrt(num);
 		return sqrt * sqrt == num;
 	}
 	
@@ -182,6 +188,9 @@ public class CMath {
 	// generates the prime factors of n, with repeats
 	public static ArrayList<Integer> primeFactors(int n) {
 		ArrayList<Integer> ret = new ArrayList<Integer>();
+		if (n < 2) {
+			return ret;
+		}
 		while (n % 2 == 0) {
 			ret.add(2);
 			n /= 2;
@@ -217,6 +226,46 @@ public class CMath {
 		}
 		primeCount.put(curr, count);
 		return primeCount;
+	}
+	
+	// returns treeset of all factors of a number n
+	public static TreeSet<Integer> factors(int n) {
+		TreeSet<Integer> ret = new TreeSet<Integer>();
+		if (n < 1) {
+			return ret;
+		}
+		ret.add(1);
+		HashMap<Integer, Integer> primeCounts = primeCount(n);
+		for (Integer p : primeCounts.keySet()) {
+			TreeSet<Integer> temp = new TreeSet<Integer>();
+			int k = p;
+			for (int i = 1; i <= primeCounts.get(p); i++) {
+				for (Integer j : ret) {
+					temp.add(j * k);
+				}
+				k *= p;
+			}
+			ret.addAll(temp);
+		}
+		return ret;
+	}
+	
+	public static TreeSet<BigInteger> factors(HashMap<Integer, Integer> primeCounts) {
+		TreeSet<BigInteger> ret = new TreeSet<BigInteger>();
+		ret.add(BigInteger.ONE);
+		for (Integer p : primeCounts.keySet()) {
+			TreeSet<BigInteger> temp = new TreeSet<BigInteger>();
+			BigInteger prime = intToBI(p);
+			BigInteger k = prime;
+			for (int i = 1; i <= primeCounts.get(p); i++) {
+				for (BigInteger j : ret) {
+					temp.add(j.multiply(k));
+				}
+				k = k.multiply(prime);
+			}
+			ret.addAll(temp);
+		}
+		return ret;
 	}
 	
 	// computes the euler phi function of n
@@ -415,7 +464,7 @@ public class CMath {
 	}
 	
 	public static BigInteger intToBI(int n) {
-		return new BigInteger(Integer.toString(n));
+		return BigInteger.valueOf((long) n);
 	}
 	
 	public static BigInteger modInvP(BigInteger a, BigInteger p) {
