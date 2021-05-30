@@ -283,6 +283,16 @@ public class CMath {
 		return ret;
 	}
 	
+	// computes the number of factors of n
+	public static int numFactors(int n) {
+		int ret = 1;
+		HashMap<Integer, Integer> factorization = primeCount(n);
+		for (Integer i : factorization.keySet()) {
+			ret *= (factorization.get(i) + 1);
+		}
+		return ret;
+	}
+	
 	// checks if a contains each digit from 1 to 9 exactly once
 	public static boolean isPandigitalNoZero(String a) {
 		for (int i = 1; i < 10; i++) {
