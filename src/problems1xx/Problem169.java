@@ -8,6 +8,9 @@ public class Problem169 {
 	// n is the binary representation of the number; assume n > 0
 	// dynamic programming solution, iterates through the digits one by one
 	public static long f(String n) {
+		// basically we represent each solution as binary, except we also allow digits to be 2
+		// so 10 = 4 + 4 + 1 + 1 would be the solution 202
+		
 		// zero is the number of solutions so far where the rightmost non-one digit is a 0
 		long zero = 1;
 		// two is the same thing but rightmost non-one digit is a 2
