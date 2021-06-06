@@ -92,9 +92,12 @@ public class CMath {
 		if (r < 0 || r > n) {
 			return BigInteger.ZERO;
 		}
-		BigInteger ret = new BigInteger(Integer.toString(n));
+		if (r == 0 && n == 0) {
+			return BigInteger.ONE;
+		}
+		BigInteger ret = intToBI(n);
 		for (int i = n - 1; i > n - r; i--) {
-			ret = ret.multiply(new BigInteger(Integer.toString(i)));
+			ret = ret.multiply(intToBI(i));
 		}
 		return ret;
 	}
