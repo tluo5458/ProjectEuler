@@ -1,7 +1,7 @@
 # ProjectEuler
 ProjectEuler Code Solutions. The problems can be found at projecteuler.net.
 
-Currently completed problems are 1-146, 148-149, 151, 157-158, 162, 164, 166, 169, 172-174, 179, 183, 187-188, 190-191, 197, 206, 243, 719, 727, and 743. Any files that aren't in here were done by hand or otherwise not in code.
+Currently completed problems are 1-146, 148-149, 151, 157-158, 162, 164, 166, 168-169, 172-174, 179, 183, 187-188, 190-191, 197, 206, 243, 719, 727, and 743. Any files that aren't in here were done by hand or otherwise not in code.
 
 Currently notable:
 - All 1-100 completed
