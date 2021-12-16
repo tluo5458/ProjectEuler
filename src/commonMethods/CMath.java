@@ -495,5 +495,4 @@ public class CMath {
 		}
 		return tot;
 	}
-	
 }
