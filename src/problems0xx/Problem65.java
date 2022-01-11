@@ -1,14 +1,14 @@
 package problems0xx;
 
-import fractions.Fraction;
+import fractions.BCDFraction;
 
 public class Problem65 {
 	// calculates [previous, a1, ..., an] where continued = [a1, ..., an]
-	public static Fraction addToFront(Fraction continued, int previous) {
-		return Fraction.addFractions(new Fraction(previous, 1), continued.reciprocal());
+	public static BCDFraction addToFront(BCDFraction continued, int previous) {
+		return BCDFraction.addFractions(new BCDFraction(previous, 1), continued.reciprocal());
 	}
 	
-	public static Fraction econvergent(int n) {
+	public static BCDFraction econvergent(int n) {
 		// coeffs is backwards
 		int[] coeffs = new int[n];
 		for (int i = 0; i < n; i++) {
@@ -18,7 +18,7 @@ public class Problem65 {
 			coeffs[i] = (n / 3) * 2 - (i / 3) * 2;
 		}
 		coeffs[n - 1] = 2;
-		Fraction curr = new Fraction(coeffs[0], 1);
+		BCDFraction curr = new BCDFraction(coeffs[0], 1);
 		for (int i = 1; i < n; i++) {
 			curr = addToFront(curr, coeffs[i]);
 		}
@@ -26,7 +26,7 @@ public class Problem65 {
 	}
 	
 	public static void main(String[] args) {
-		Fraction hundred = econvergent(100);
+		BCDFraction hundred = econvergent(100);
 		System.out.println(hundred);
 		System.out.println(hundred.num().digSum());
 	}

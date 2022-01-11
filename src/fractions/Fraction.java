@@ -1,22 +1,13 @@
 package fractions;
 
-import bcd.BCD;
+import commonMethods.CMath;
 
 public class Fraction implements Comparable<Fraction> {
-	private BCD num;
-	private BCD den;
+	private long num;
+	private long den;
 	
-	public Fraction(int numerator, int denominator) {
+	public Fraction(long numerator, long denominator) {
 		if (denominator == 0) {
-			throw new IllegalArgumentException("Can't divide by zero!");
-		}
-		num = new BCD(numerator);
-		den = new BCD(denominator);
-		simplify();
-	}
-	
-	public Fraction(BCD numerator, BCD denominator) {
-		if (denominator.equals(new BCD(0))) {
 			throw new IllegalArgumentException("Can't divide by zero!");
 		}
 		num = numerator;
@@ -24,26 +15,55 @@ public class Fraction implements Comparable<Fraction> {
 		simplify();
 	}
 	
-	private void simplify() {
-		BCD gcd = BCD.gcd(num, den);
-		num = BCD.divideBCDs(num, gcd);
-		den = BCD.divideBCDs(den, gcd);
+	public Fraction(Fraction f) {
+		num = f.num;
+		den = f.den;
 	}
 	
-	public BCD num() {
+	private void simplify() {
+		long gcd = CMath.gcd(Math.abs(num), Math.abs(den));
+		num /= gcd;
+		den /= gcd;
+		boolean neg = false;
+		if (num < 0) {
+			neg = !neg;
+			num *= -1;
+		}
+		if (den < 0) {
+			neg = !neg;
+			den *= -1;
+		}
+		if (neg) {
+			num *= -1;
+		}
+	}
+	
+	public long num() {
 		return num;
 	}
 	
-	public BCD den() {
+	public long den() {
 		return den;
 	}
 	
-	public static Fraction addFractions(Fraction a, Fraction b) {
-		return new Fraction(BCD.addBCDs(BCD.multiplyBCDs(a.num, b.den), BCD.multiplyBCDs(a.den, b.num)), BCD.multiplyBCDs(a.den, b.den));
+	public Fraction neg() {
+		return new Fraction(-1 * num, den);
 	}
 	
-	public static Fraction multiplyFractions(Fraction a, Fraction b) {
-		return new Fraction(BCD.multiplyBCDs(a.num, b.num), BCD.multiplyBCDs(a.den, b.den));
+	public Fraction add(Fraction a) {
+		return new Fraction(a.num * den + a.den * num, a.den * den);
+	}
+	
+	public Fraction subtract(Fraction a) {
+		return add(a.neg());
+	}
+	
+	public Fraction multiply(Fraction a) {
+		return new Fraction(a.num * num, a.den * den);
+	}
+	
+	public Fraction divide(Fraction a) {
+		return multiply(a.reciprocal());
 	}
 	
 	public Fraction reciprocal() {
@@ -52,11 +72,10 @@ public class Fraction implements Comparable<Fraction> {
 	
 	@Override
 	public int compareTo(Fraction other) {
-		BCD diff = BCD.subtractBCDs(BCD.multiplyBCDs(num, other.den), BCD.multiplyBCDs(den, other.num));
-		if (diff.compareTo(new BCD(0)) == 0) {
+		if (this.equals(other)) {
 			return 0;
-		} 
-		return diff.isNegative() ? -1 : 1;
+		}
+		return (num * other.den - den * other.num) > 0 ? 1 : -1;
 	}
 	
 	@Override
@@ -65,12 +84,12 @@ public class Fraction implements Comparable<Fraction> {
 			return false;
 		}
 		Fraction oFrac = (Fraction) other;
-		return (num.equals(oFrac.num) && den.equals(oFrac.den));
+		return (num == oFrac.num && den == oFrac.den);
 	}
 	
 	@Override 
 	public int hashCode() {
-		return 10000 * num.hashCode() + den.hashCode();
+		return (int) (10000 * num + den);
 	}
 	
 	@Override
