@@ -11,6 +11,8 @@ public class Problem159 {
 		return (i - 1) % 9 + 1;
 	}
 	
+	// given an arraylist of prime factors (with multiplicity), gives
+	// a sorted arraylist of factors
 	private static ArrayList<Integer> factors(ArrayList<Integer> primes) {
 		HashMap<Integer, Integer> p = new HashMap<Integer, Integer>();
 		for (int i : primes) {
@@ -43,6 +45,12 @@ public class Problem159 {
 	}
 	
 	// dp solution
+	// the key insight is that if n is composite, then mdrs(n) is going
+	// to be equal to mdrs(a) + mdrs(b) for some a, b where ab = n
+	// (either that or dr(n)
+	// so we iterate through, doing a sieve of eratosthenes-esque
+	// algorithm where we keep track of all prime factors of each number 
+	// found so far
 	public static int tot(int lim) {
 		HashMap<Integer, ArrayList<Integer>> factors = new HashMap<Integer, ArrayList<Integer>>();
 		for (int i = 2; i < lim; i++) {
@@ -53,6 +61,8 @@ public class Problem159 {
 			if (factors.get(i).size() == 0) {
 				// prime
 				mdrs[i - 2] = dr(i);
+				// add the correct number of factors of i to all multiples
+				// of i and powers of i
 				int curr = 1;
 				do {
 					curr *= i;
@@ -64,9 +74,12 @@ public class Problem159 {
 				// composite
 				int max = 0;
 				ArrayList<Integer> facts = factors(factors.get(i));
+				// go through the factors and find the max possible sum
+				// of mdrs
 				for (int j = 1; j < (facts.size() + 1) / 2; j++) {
 					max = Math.max(max, mdrs[facts.get(j) - 2] + mdrs[facts.get(facts.size() - 1 - j) - 2]);
 				}
+				// or it's just dr(i) (e.g. if i = 8, it's this)
 				max = Math.max(max, dr(i));
 				mdrs[i - 2] = max;
 			}
